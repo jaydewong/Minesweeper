@@ -1,4 +1,4 @@
-
+ 
 
 import de.bezier.guido.*;
 public final static int NUM_ROWS = 20;
@@ -49,7 +49,8 @@ public boolean isWon()
 }
 public void displayLosingMessage()
 {
-    //your code here
+    background(0);
+    text("You Lose!", 300,300, 40);
 }
 public void displayWinningMessage()
 {
@@ -88,22 +89,24 @@ public class MSButton
     public void mousePressed () 
     {
         clicked = true;
+        marked = false;
         if(mouseButton == RIGHT){
-          if(marked == false){
-            clicked = false; //doesnt mark and doesnt color
-          }else{
-            marked = true;
-          }
-        }else if(bombs.contains( this )){
+        marked = true;
+        }
+        if(bombs.contains(this)){ //if bombs contains clicked buttons, doesnt let me lose 
           displayLosingMessage();
         } else if(countBombs(r,c) > 0){
+          if(!marked){
           setLabel(str(countBombs(r,c)));
+          }
         }else //for eight cubes 
         {
           for(int col = c - 1;col <= c + 1; col++){
             for(int row = r - 1; row <= r + 1; row++){
               if(isValid(row,col) && !buttons[row][col].isClicked()){
+               if(!marked){
                buttons[row][col].mousePressed();
+               }
             }
           }  
         }
@@ -113,14 +116,26 @@ public class MSButton
 
     public void draw () 
     {    
-        if (marked)
+        if (marked){
             fill(0,0,255);
-        else if( clicked && bombs.contains(this) ) 
+    }
+        else if( clicked && bombs.contains(this) ) {
             fill(255,0,0);
-        else if(clicked)
+            for(int i = 0; i < NUM_ROWS; i++){ //try to get all the mines to turn red when you click one
+             for(int j = 0; j < NUM_COLS; j++){
+              if(bombs.contains(buttons[i][j])){
+                fill(255,0,0);
+              }
+            }
+          }
+          
+    }
+        else if(clicked){
             fill( 200 );
-        else 
+        }
+        else {
             fill( 100 );
+        }
 
         rect(x, y, width, height);
         fill(0);
@@ -139,7 +154,7 @@ public class MSButton
         }
         return false;
     }
-    public int countBombs(int row, int col) //check all 8 neighbors?
+    public int countBombs(int row, int col) 
     {
         int numBombs = 0;
         for(int c = col - 1; c <= col + 1; c++){
