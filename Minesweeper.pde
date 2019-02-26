@@ -44,13 +44,17 @@ public void draw ()
 }
 public boolean isWon()
 {
-    //your code here
-    return false;
+    for(int row = 0; row < NUM_ROWS; row++){
+      for(int col = 0; col < NUM_COLS; col++){
+        if(bombs.contains(buttons[row][col]) && buttons[row][col].isClicked()){
+          return false;
+        }//in the bombs array and clicked == true 
+      }
+    }
+    return true;
 }
 public void displayLosingMessage()
 {
-    background(0);
-    text("You Lose!", 300,300, 40);
 }
 public void displayWinningMessage()
 {
@@ -91,25 +95,27 @@ public class MSButton
         clicked = true;
         marked = false;
         if(mouseButton == RIGHT){
-        marked = true;
+          marked = true;
+          clicked = false;
         }
         if(bombs.contains(this)){ //if bombs contains clicked buttons, doesnt let me lose 
           displayLosingMessage();
-        } else if(countBombs(r,c) > 0){
-          if(!marked){
-          setLabel(str(countBombs(r,c)));
-          }
-        }else //for eight cubes 
-        {
-          for(int col = c - 1;col <= c + 1; col++){
-            for(int row = r - 1; row <= r + 1; row++){
-              if(isValid(row,col) && !buttons[row][col].isClicked()){
-               if(!marked){
-               buttons[row][col].mousePressed();
-               }
-            }
-          }  
         }
+        else if(countBombs(r,c) > 0){
+            if(!marked){
+              setLabel(str(countBombs(r,c)));
+            }
+        }
+        else{
+          for(int row = r - 1;row <= r + 1; row++){
+            for(int col = c - 1; col <= c + 1; col++){
+              if(isValid(row,col) && !buttons[row][col].isClicked()){
+                 if(!marked){
+                   buttons[row][col].mousePressed();
+                 }
+              }
+            }  
+          }
         }
         //your code here
     }
