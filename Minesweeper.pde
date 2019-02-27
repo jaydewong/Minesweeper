@@ -53,8 +53,22 @@ public boolean isWon()
     }
     return true;
 }
+
 public void displayLosingMessage()
 {
+    for (int i = 0; i < NUM_ROWS; i++) {
+      for(int j = 0; j < NUM_COLS; j++){
+          buttons[i][j].setColor(100);  //click all the bombs
+      } //changes it to red even if its marked
+     }
+    //buttons[10][6].setLabel(str('Y'));
+    //buttons[10][7].setLabel(str('O'));
+    //buttons[10][8].setLabel(str('U'));
+    //buttons[10][10].setLabel(str('L'));
+    //buttons[10][11].setLabel(str('O'));
+    //buttons[10][12].setLabel(str('S'));
+    //buttons[10][13].setLabel(str('E'));
+  
 }
 public void displayWinningMessage()
 {
@@ -88,6 +102,13 @@ public class MSButton
     {
         return clicked;
     }
+    public boolean setClicked(boolean n)
+    {
+        return clicked = n;
+    }
+    public void setColor(color n){
+      fill(n);
+    }
     // called by manager
     
     public void mousePressed () 
@@ -95,10 +116,17 @@ public class MSButton
         clicked = true;
         marked = false;
         if(mouseButton == RIGHT){
+          if(marked == true){
+            marked = false;
+            clicked = false;
+          }
           marked = true;
           clicked = false;
         }
         if(bombs.contains(this)){ //if bombs contains clicked buttons, doesnt let me lose 
+          for (int i = 0; i < bombs.size(); i++) {
+            bombs.get(i).setClicked(true); //click all the bombs
+          }
           displayLosingMessage();
         }
         else if(countBombs(r,c) > 0){
@@ -127,13 +155,6 @@ public class MSButton
     }
         else if( clicked && bombs.contains(this) ) {
             fill(255,0,0);
-            for(int i = 0; i < NUM_ROWS; i++){ //try to get all the mines to turn red when you click one
-             for(int j = 0; j < NUM_COLS; j++){
-              if(bombs.contains(buttons[i][j])){
-                fill(255,0,0);
-              }
-            }
-          }
           
     }
         else if(clicked){
