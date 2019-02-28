@@ -56,23 +56,17 @@ public boolean isWon()
 
 public void displayLosingMessage()
 {
-    for (int i = 0; i < NUM_ROWS; i++) {
-      for(int j = 0; j < NUM_COLS; j++){
-          buttons[i][j].setColor(100);  //click all the bombs
-      } //changes it to red even if its marked
-     }
-    //buttons[10][6].setLabel(str('Y'));
-    //buttons[10][7].setLabel(str('O'));
-    //buttons[10][8].setLabel(str('U'));
-    //buttons[10][10].setLabel(str('L'));
-    //buttons[10][11].setLabel(str('O'));
-    //buttons[10][12].setLabel(str('S'));
-    //buttons[10][13].setLabel(str('E'));
+    buttons[10][6].setLabel(str('Y'));
+    buttons[10][7].setLabel(str('O'));
+    buttons[10][8].setLabel(str('U'));
+    buttons[10][10].setLabel(str('L'));
+    buttons[10][11].setLabel(str('O'));
+    buttons[10][12].setLabel(str('S'));
+    buttons[10][13].setLabel(str('E'));
   
 }
 public void displayWinningMessage()
 {
-    //your code here
 }
 
 public class MSButton
@@ -123,11 +117,14 @@ public class MSButton
           marked = true;
           clicked = false;
         }
-        if(bombs.contains(this)){ //if bombs contains clicked buttons, doesnt let me lose 
+        if(bombs.contains(this)){ //lose whenever i mark bomb 
           for (int i = 0; i < bombs.size(); i++) {
+            if(marked == false){
             bombs.get(i).setClicked(true); //click all the bombs
+            displayLosingMessage();
           }
-          displayLosingMessage();
+          }
+          
         }
         else if(countBombs(r,c) > 0){
             if(!marked){
