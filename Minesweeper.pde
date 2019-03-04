@@ -1,4 +1,4 @@
- 
+ //bottom row and right column if not valid, does not recursive 
 
 import de.bezier.guido.*;
 public final static int NUM_ROWS = 20;
@@ -20,7 +20,7 @@ void setup ()
       }
     }//your code to initialize buttons goes here
     
-    for(int i = 0; i < 60; i++){
+    for(int i = 0; i < 60; i++){ 
     setBombs();
     }
 }
@@ -42,16 +42,17 @@ public void draw ()
     if(isWon())
         displayWinningMessage();
 }
+
 public boolean isWon()
 {
-    for(int row = 0; row < NUM_ROWS; row++){
-      for(int col = 0; col < NUM_COLS; col++){
-        if(bombs.contains(buttons[row][col]) && buttons[row][col].isClicked()){
-          return false;
-        }//in the bombs array and clicked == true 
+    for (int i = 0; i < NUM_ROWS; i++) {
+    for (int j = 0; j < NUM_COLS; j++) {
+      if (!bombs.contains(buttons[i][j]) && buttons[i][j].isClicked() == false) {
+        return false;
       }
     }
-    return true;
+  }
+  return true;
 }
 
 public void displayLosingMessage()
@@ -67,6 +68,13 @@ public void displayLosingMessage()
 }
 public void displayWinningMessage()
 {
+   buttons[10][6].setLabel(str('Y'));
+    buttons[10][7].setLabel(str('O'));
+    buttons[10][8].setLabel(str('U'));
+    buttons[10][10].setLabel(str('W'));
+    buttons[10][11].setLabel(str('I'));
+    buttons[10][12].setLabel(str('N'));
+    
 }
 
 public class MSButton
