@@ -116,16 +116,14 @@ public class MSButton
     public void mousePressed () 
     {
         clicked = true;
-        marked = false;
-        if(mouseButton == RIGHT){
-          if(marked == true){
-            marked = false;
-            clicked = false;
-          }
-          marked = true;
+        clicked = true;
+        if (mouseButton == RIGHT)
+        {
+        marked =! marked;
+        if (marked == false)
           clicked = false;
         }
-        if(bombs.contains(this)){ //lose whenever i mark bomb 
+        else if(bombs.contains(this)){ //lose whenever i mark bomb 
           for (int i = 0; i < bombs.size(); i++) {
             if(marked == false){
             bombs.get(i).setClicked(true); //click all the bombs
@@ -179,10 +177,8 @@ public class MSButton
     }
     public boolean isValid(int r, int c)
     {
-        if(r >=0 && r <= NUM_ROWS){
-         if(c >=0 && c <= NUM_COLS){
-           return true;
-         }
+        if(r >=0 && r < NUM_ROWS && c>=0 && c<NUM_COLS){
+         return true;
         }
         return false;
     }
